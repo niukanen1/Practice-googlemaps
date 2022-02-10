@@ -83,18 +83,18 @@ export async function getStaticProps() {
     const cursor = await collection.find({}).toArray();
     const data = JSON.stringify(cursor);
     async function GeoAddress(address) {
-        const geoUrl = "https://maps.googleapis.com/maps/api/geocode/json?new_forward_geocoder=true&address="+ address + "&key=" + process.env.GOOGLEMAP_APIKEY;
-        let result = fetch(geoUrl)
-            .then(result => result.json())
-            .then(place => {
-                if (typeof place.results[0]?.geometry.location === "undefined") {
-                    return null
-                }
-                else {
-
-                    return place.results[0]?.geometry.location
-                }
-            })
+        const NodeGeocoder = require('node-geocoder');
+        const options = {
+            provider: "google",
+            apiKey: "AIzaSyCmWzoMrGJRzjwL0-01kvdOlu7d6ljI-vk",
+            formatter: null
+        }
+        const geocoder = NodeGeocoder(options);
+        const fullResult = await geocoder.geocode(address);
+        const result = {
+            lat: fullResult[0]?.latitude,
+            lng: fullResult[0]?.longitude
+        }
 
         return result
     }
@@ -102,6 +102,9 @@ export async function getStaticProps() {
 
     for (let i of places) {
         i.position = await GeoAddress(i.address)
+        if (i.position === null) {
+            console.log(i.address);
+        }
     }
     const exPlaces = JSON.stringify(places)
     return {
