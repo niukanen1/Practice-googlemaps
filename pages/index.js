@@ -1,4 +1,4 @@
-
+import 'dotenv/config';
 import { Map, GoogleApiWrapper, Marker, InfoWindow} from "google-maps-react";
 import { MongoClient } from "mongodb";
 import { useState } from "react";
@@ -76,7 +76,7 @@ function Home({google, exPlaces}) {
 }
 
 export async function getStaticProps() {
-    const URL = "mongodb+srv://ivan:1qaz@cluster0.2u3vn.mongodb.net/test"
+    const URL = process.env.MONGODB_URI;
     const client = new MongoClient(URL);
     await client.connect();
     const database = await client.db("Practice");
@@ -85,7 +85,7 @@ export async function getStaticProps() {
     const data = JSON.stringify(cursor);
 
     async function GeoAddress(address) {
-        const geoUrl = "https://maps.googleapis.com/maps/api/geocode/json?new_forward_geocoder=true&address="+ address + "&key=AIzaSyCmWzoMrGJRzjwL0-01kvdOlu7d6ljI-vk";
+        const geoUrl = "https://maps.googleapis.com/maps/api/geocode/json?new_forward_geocoder=true&address="+ address + "&key=" + process.env.GOOGLEMAP_APIKEY;
         let result = fetch(geoUrl)
             .then(result => result.json())
             .then(place => {
@@ -114,5 +114,5 @@ export async function getStaticProps() {
 }
 
 export default GoogleApiWrapper({
-    apiKey: "AIzaSyCmWzoMrGJRzjwL0-01kvdOlu7d6ljI-vk"
+    apiKey: process.env.GOOGLEMAP_APIKEY
 })(Home)
