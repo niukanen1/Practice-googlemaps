@@ -16,3 +16,8 @@ To start using this code, you will need to:
 - Get your own google api key and turn on geocoding api
 <br/>
 The logic of the app is in index.js file, there you can edit output data like what exactly you want to display about the places. 
+<br/>
+<br/>
+Preview of the map 
+<br/>
+https://practice-googlemaps-3plpvdlwj-niukanen1.vercel.app
