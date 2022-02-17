@@ -2,7 +2,7 @@ import { Map, GoogleApiWrapper, Marker, InfoWindow} from "google-maps-react";
 import { MongoClient } from "mongodb";
 import { useState } from "react";
 
-function Home({google, exPlaces}) {
+function Home({ google, exPlaces }) {
     const [places, setPlaces] = useState(JSON.parse(exPlaces));
     const [active, setActive] = useState({
         activeMarker: {},
@@ -95,7 +95,6 @@ export async function getStaticProps() {
             lat: fullResult[0]?.latitude,
             lng: fullResult[0]?.longitude
         }
-
         return result
     }
     const places = JSON.parse(data);
@@ -118,3 +117,6 @@ export async function getStaticProps() {
 export default GoogleApiWrapper({
     apiKey: process.env.GOOGLEMAP_APIKEY
 })(Home)
+
+
+// new comment
